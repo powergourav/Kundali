@@ -66,11 +66,11 @@ def rel(a, b):  # a की दृष्टि में b: 2 मित्र, 1 
 MAITRI = {(2, 2): 5, (2, 1): 4, (1, 2): 4, (1, 1): 3, (2, 0): 1, (0, 2): 1, (1, 0): 0.5, (0, 1): 0.5, (0, 0): 0}
 
 GANA = [0, 1, 2, 1, 0, 1, 0, 0, 2, 2, 1, 1, 0, 2, 0, 2, 0, 2, 2, 1, 1, 0, 2, 2, 1, 1, 0]  # 0 देव 1 मनुष्य 2 राक्षस
-def gana_pts(b, g):
+def gana_pts(b, g):  # b = वर का गण, g = वधू का गण (0 देव, 1 मनुष्य, 2 राक्षस)
     if b == g: return 6
-    s = {b, g}
-    if s == {0, 1}: return 5
-    if s == {0, 2}: return 1
+    if (b, g) == (0, 1): return 6   # वर देव, वधू मनुष्य (Parashara's Light से मेल)
+    if (b, g) == (1, 0): return 5   # वर मनुष्य, वधू देव
+    if {b, g} == {0, 2}: return 1
     return 0
 
 NADI = [0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2]
@@ -235,7 +235,7 @@ if __name__ == "__main__":
         if all(f[n] for n, v in fc.items() if v):
             exact += 1
             kk = ashtakoot(b["Moon"], g["Moon"])
-            if kk["nadi"] > 0 and sum(kk.values()) >= 24: exact_plus += 1
+            if kk["nadi"] > 0 and sum(kk.values()) >= 25: exact_plus += 1
     print(f"\nN = {N}")
     print("हर संयोग अलग-अलग:")
     for n in fc: print(f"   {100*single[n]/N:5.1f}%  {n}")
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         cum += total[c]
         print(f"   {c:2d}: {100*total[c]/N:6.3f}%   (इतने या ज़्यादा: {100*cum/N:6.3f}%)")
     print(f"इस जोड़े के सारे {my_n} संयोग एक साथ: {exact} ({100*exact/N:.4f}%)")
-    print(f"  + नाड़ी दोष नहीं और गुण >= 24: {exact_plus} ({100*exact_plus/N:.4f}%)")
+    print(f"  + नाड़ी दोष नहीं और गुण >= 25: {exact_plus} ({100*exact_plus/N:.4f}%)")
 ''',
 }
 

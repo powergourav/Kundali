@@ -32,7 +32,7 @@ for _ in range(N):
     g, rg = chart(D_JD + gap * 365.25 + random.uniform(-0.5, 0.5), *place())
     s = score(g, rg); vvd[s["vv"]] += 1
     ak = s["ak"] >= me["ak"] and s["nadi"]
-    cnt["अष्टकूट (२४+, नाड़ी ठीक)"] += ak
+    cnt["अष्टकूट (२५+, नाड़ी ठीक)"] += ak
     cnt["दशकूट (७.५+, रज्जु-वेध साफ़)"] += s["dk"] >= me["dk"]
     cnt["वर-वधू सूची (१८+/२१)"] += s["vv"] >= me["vv"]
     cnt["ऋणानुबंध सूची (१२+/२८)"] += s["rn"] >= me["rn"]

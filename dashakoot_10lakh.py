@@ -71,7 +71,7 @@ if __name__ == "__main__":
             if s >= my: ge += 1
             if s >= my and clean: clean_ge += 1
             ak = sum(ashtakoot(Lb, Lg).values())
-            if s >= my and clean and ak >= 24 and ashtakoot(Lb, Lg)["nadi"] > 0: ge_and_ak += 1
+            if s >= my and clean and ak >= 25 and ashtakoot(Lb, Lg)["nadi"] > 0: ge_and_ak += 1
     print(f"कुल जोड़े (चरण-संयोग): {total}")
     cum = 0
     for s in sorted(dist, reverse=True):
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         print(f"  {s:4.1f}/10 : {100*dist[s]/total:6.2f}%   इतना या ज़्यादा: {100*cum/total:6.2f}%")
     print(f"{my}/10 या ज़्यादा: {100*ge/total:.2f}%")
     print(f"{my}/10 या ज़्यादा + रज्जु-वेध साफ़: {100*clean_ge/total:.2f}%")
-    print(f"ऊपर वाला + अष्टकूट >=24 + नाड़ी दोष नहीं: {100*ge_and_ak/total:.2f}%")
+    print(f"ऊपर वाला + अष्टकूट >=25 + नाड़ी दोष नहीं: {100*ge_and_ak/total:.2f}%")
 ''',
     'kundli_sim': r'''"""
 रैंडम वर-वधू जोड़ों का Monte Carlo सिमुलेशन (Swiss Ephemeris, लाहिड़ी अयनांश)।
@@ -140,11 +140,11 @@ def rel(a, b):  # a की दृष्टि में b: 2 मित्र, 1 
 MAITRI = {(2, 2): 5, (2, 1): 4, (1, 2): 4, (1, 1): 3, (2, 0): 1, (0, 2): 1, (1, 0): 0.5, (0, 1): 0.5, (0, 0): 0}
 
 GANA = [0, 1, 2, 1, 0, 1, 0, 0, 2, 2, 1, 1, 0, 2, 0, 2, 0, 2, 2, 1, 1, 0, 2, 2, 1, 1, 0]  # 0 देव 1 मनुष्य 2 राक्षस
-def gana_pts(b, g):
+def gana_pts(b, g):  # b = वर का गण, g = वधू का गण (0 देव, 1 मनुष्य, 2 राक्षस)
     if b == g: return 6
-    s = {b, g}
-    if s == {0, 1}: return 5
-    if s == {0, 2}: return 1
+    if (b, g) == (0, 1): return 6   # वर देव, वधू मनुष्य (Parashara's Light से मेल)
+    if (b, g) == (1, 0): return 5   # वर मनुष्य, वधू देव
+    if {b, g} == {0, 2}: return 1
     return 0
 
 NADI = [0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2]
@@ -279,10 +279,10 @@ for _ in range(N):
         if k["रज्जु"] and k["वेध"]:
             clean += 1
             a = ashtakoot(bm, gm)
-            if a["nadi"] > 0 and sum(a.values()) >= 24: clean_ak += 1
+            if a["nadi"] > 0 and sum(a.values()) >= 25: clean_ak += 1
 print(f"N = {N:,}")
 cum = 0
 for s in sorted(dist, reverse=True):
     cum += dist[s]; print(f"  {s:4.1f}/10 : {100*dist[s]/N:6.2f}%   इतना या ज़्यादा: {100*cum/N:6.2f}%")
-for n, v in [("७.५ या ज़्यादा", ge), ("+ रज्जु-वेध साफ़", clean), ("+ अष्टकूट >=२४ और नाड़ी दोष नहीं", clean_ak)]:
+for n, v in [("७.५ या ज़्यादा", ge), ("+ रज्जु-वेध साफ़", clean), ("+ अष्टकूट >=२५ और नाड़ी दोष नहीं", clean_ak)]:
     print(f"{n}: {v:,} ({100*v/N:.2f}%, ~1 in {N/v:.1f})")

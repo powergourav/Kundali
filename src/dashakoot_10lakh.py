@@ -24,10 +24,10 @@ for _ in range(N):
         if k["रज्जु"] and k["वेध"]:
             clean += 1
             a = ashtakoot(bm, gm)
-            if a["nadi"] > 0 and sum(a.values()) >= 24: clean_ak += 1
+            if a["nadi"] > 0 and sum(a.values()) >= 25: clean_ak += 1
 print(f"N = {N:,}")
 cum = 0
 for s in sorted(dist, reverse=True):
     cum += dist[s]; print(f"  {s:4.1f}/10 : {100*dist[s]/N:6.2f}%   इतना या ज़्यादा: {100*cum/N:6.2f}%")
-for n, v in [("७.५ या ज़्यादा", ge), ("+ रज्जु-वेध साफ़", clean), ("+ अष्टकूट >=२४ और नाड़ी दोष नहीं", clean_ak)]:
+for n, v in [("७.५ या ज़्यादा", ge), ("+ रज्जु-वेध साफ़", clean), ("+ अष्टकूट >=२५ और नाड़ी दोष नहीं", clean_ak)]:
     print(f"{n}: {v:,} ({100*v/N:.2f}%, ~1 in {N/v:.1f})")

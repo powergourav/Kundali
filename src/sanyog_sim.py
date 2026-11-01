@@ -69,7 +69,7 @@ if __name__ == "__main__":
         if all(f[n] for n, v in fc.items() if v):
             exact += 1
             kk = ashtakoot(b["Moon"], g["Moon"])
-            if kk["nadi"] > 0 and sum(kk.values()) >= 24: exact_plus += 1
+            if kk["nadi"] > 0 and sum(kk.values()) >= 25: exact_plus += 1
     print(f"\nN = {N}")
     print("हर संयोग अलग-अलग:")
     for n in fc: print(f"   {100*single[n]/N:5.1f}%  {n}")
@@ -79,4 +79,4 @@ if __name__ == "__main__":
         cum += total[c]
         print(f"   {c:2d}: {100*total[c]/N:6.3f}%   (इतने या ज़्यादा: {100*cum/N:6.3f}%)")
     print(f"इस जोड़े के सारे {my_n} संयोग एक साथ: {exact} ({100*exact/N:.4f}%)")
-    print(f"  + नाड़ी दोष नहीं और गुण >= 24: {exact_plus} ({100*exact_plus/N:.4f}%)")
+    print(f"  + नाड़ी दोष नहीं और गुण >= 25: {exact_plus} ({100*exact_plus/N:.4f}%)")

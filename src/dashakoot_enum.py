@@ -61,7 +61,7 @@ if __name__ == "__main__":
             if s >= my: ge += 1
             if s >= my and clean: clean_ge += 1
             ak = sum(ashtakoot(Lb, Lg).values())
-            if s >= my and clean and ak >= 24 and ashtakoot(Lb, Lg)["nadi"] > 0: ge_and_ak += 1
+            if s >= my and clean and ak >= 25 and ashtakoot(Lb, Lg)["nadi"] > 0: ge_and_ak += 1
     print(f"कुल जोड़े (चरण-संयोग): {total}")
     cum = 0
     for s in sorted(dist, reverse=True):
@@ -69,4 +69,4 @@ if __name__ == "__main__":
         print(f"  {s:4.1f}/10 : {100*dist[s]/total:6.2f}%   इतना या ज़्यादा: {100*cum/total:6.2f}%")
     print(f"{my}/10 या ज़्यादा: {100*ge/total:.2f}%")
     print(f"{my}/10 या ज़्यादा + रज्जु-वेध साफ़: {100*clean_ge/total:.2f}%")
-    print(f"ऊपर वाला + अष्टकूट >=24 + नाड़ी दोष नहीं: {100*ge_and_ak/total:.2f}%")
+    print(f"ऊपर वाला + अष्टकूट >=25 + नाड़ी दोष नहीं: {100*ge_and_ak/total:.2f}%")

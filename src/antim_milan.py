@@ -12,7 +12,7 @@ import var_vadhu_suchi as vv, rinanubandh as rn, jaimini_dinesh as jm, bb_sree_d
 D_JD = swe.julday(1989, 9, 30, 7.2)
 def S(g, rg):
     s = {}
-    a = ashtakoot(DINESH["Moon"], g["Moon"]); s["अष्टकूट"] = sum(a.values()) + (1 if a["gana"] == 5 else 0)
+    a = ashtakoot(DINESH["Moon"], g["Moon"]); s["अष्टकूट"] = sum(a.values())
     s["_nadi"] = a["nadi"] > 0
     s["दशकूट ४४"] = score44(DINESH["Moon"], nak(DINESH["Moon"]), sign(DINESH["Moon"]), g["Moon"], nak(g["Moon"]), sign(g["Moon"]))
     s["वर-वधू सूची"] = sum(vv.checks(DINESH, g).values())

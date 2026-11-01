@@ -1,0 +1,9 @@
+दिनेश-पी: {'d1_house_rev': True, 'd9_house_same': True, 'd1_sign_rev': False, 'd9_sign_same': False, 'touch': True}
+d1_house_rev         8.310%  (~1 in 12)
+d9_house_same        8.379%  (~1 in 12)
+house_lock           0.715%  (~1 in 140)
+house_lock_touch     0.528%  (~1 in 189)
+d1_sign_rev          1.931%  (~1 in 52)
+d9_sign_same         8.291%  (~1 in 12)
+sign_lock            0.172%  (~1 in 583)
+touch               74.112%  (~1 in 1)
