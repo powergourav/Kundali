@@ -88,7 +88,47 @@ def build(stem):
     return block + text
 
 
+ALL_MAIN = '''
+
+def _run(name):
+    print(f"\\n========== {name} ==========", flush=True)
+    code = compile(_EMBEDDED[name], name + ".py", "exec")
+    exec(code, {"__name__": "__main__", "__file__": name + ".py"})
+
+
 if __name__ == "__main__":
+    args = _sys.argv[1:]
+    if not args:
+        print("उपयोग: python kundli_all.py <नाम> [<नाम> ...]   या   python kundli_all.py all")
+        print("उपलब्ध विश्लेषण:")
+        for n in sorted(_EMBEDDED):
+            print("   ", n)
+        _sys.exit(0)
+    names = sorted(_EMBEDDED) if args == ["all"] else args
+    bad = [n for n in names if n not in _EMBEDDED]
+    if bad:
+        _sys.exit(f"ये नाम नहीं मिले: {', '.join(bad)}. सूची देखने के लिए बिना नाम के चलाएँ।")
+    for n in names:
+        _run(n)
+'''
+
+
+def build_all():
+    """सभी विश्लेषण एक ही फ़ाइल kundli_all.py में।"""
+    stems = sorted(p.stem for p in SRC.glob("*.py"))
+    body = "".join(f"    {s!r}: {literal((SRC / f'{s}.py').read_text(encoding='utf-8'))},\n" for s in stems)
+    head = ('"""\nकुंडली मिलान के सभी विश्लेषण, एक ही फ़ाइल में।\n\n'
+            '    python kundli_all.py                  # सूची\n'
+            '    python kundli_all.py dashakoot_44     # एक विश्लेषण\n'
+            '    python kundli_all.py all              # सभी (बहुत समय लगता है)\n\n'
+            'केवल pyswisseph चाहिए (कूट मिलान वाले विश्लेषण उसके बिना भी चलते हैं)।\n'
+            'tools/make_standalone.py से अपने-आप बनाया गया; बदलाव src/ में करें।\n"""\n')
+    return head + LOADER % body + ALL_MAIN
+
+
+if __name__ == "__main__":
+    (ROOT / "kundli_all.py").write_text(build_all(), encoding="utf-8")
+    print("kundli_all.py <- सभी", len(list(SRC.glob("*.py"))), "विश्लेषण")
     for path in sorted(SRC.glob("*.py")):
         out = ROOT / path.name
         out.write_text(build(path.stem), encoding="utf-8")

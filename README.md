@@ -14,6 +14,17 @@ python antim_milan.py        # सभी मुख्य कसौटिया�
 python dashakoot_44.py       # दशकूट ४४ अंक, सभी १०८ x १०८ नक्षत्र-चरण
 ```
 
+### एक ही फ़ाइल: `kundli_all.py`
+
+सभी २५ विश्लेषण एक ही फ़ाइल में भी हैं:
+
+```bash
+python kundli_all.py                  # सूची
+python kundli_all.py dashakoot_44     # एक विश्लेषण
+python kundli_all.py jaimini_dinesh teen_milan_dinesh   # कई विश्लेषण
+python kundli_all.py all              # सभी (एक CPU पर लगभग ४०-५० मिनट)
+```
+
 जड़ (root) की **हर `.py` फ़ाइल अकेले चलती है।** किसी भी एक फ़ाइल को कहीं भी कॉपी करके चलाया जा सकता है; उसे दूसरी फ़ाइल की ज़रूरत नहीं, केवल `pyswisseph` चाहिए। बड़े सिमुलेशन (२ से १० लाख) में कई मिनट लगते हैं।
 
 ### फ़ोल्डर
