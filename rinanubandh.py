@@ -188,14 +188,26 @@ if __name__ == "__main__":
 अष्टकूट गुण मिलान + मांगलिक + ग्रहों के 1-1 / 1-7 योग।
 """
 import random, collections
-import swisseph as swe
 
-swe.set_sid_mode(swe.SIDM_LAHIRI)
-FLG = swe.FLG_SIDEREAL
-PL = {"Sun": swe.SUN, "Moon": swe.MOON, "Mars": swe.MARS, "Mercury": swe.MERCURY,
-      "Jupiter": swe.JUPITER, "Venus": swe.VENUS, "Saturn": swe.SATURN, "Rahu": swe.MEAN_NODE}
+# swisseph केवल ग्रह-स्थिति (chart, random_birth) के लिए चाहिए।
+# कूट मिलान की गणना (अष्टकूट, दशकूट) इसके बिना भी चलती है।
+try:
+    import swisseph as swe
+except ImportError:
+    swe = None
+
+if swe is not None:
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    FLG = swe.FLG_SIDEREAL
+    PL = {"Sun": swe.SUN, "Moon": swe.MOON, "Mars": swe.MARS, "Mercury": swe.MERCURY,
+          "Jupiter": swe.JUPITER, "Venus": swe.VENUS, "Saturn": swe.SATURN, "Rahu": swe.MEAN_NODE}
+
+def need_swe():
+    if swe is None:
+        raise ImportError("ग्रह-स्थिति के लिए pyswisseph चाहिए: pip install pyswisseph")
 
 def chart(jd, lat, lon):
+    need_swe()
     c = {}
     for n, p in PL.items():
         c[n] = swe.calc_ut(jd, p, FLG)[0][0]
@@ -204,6 +216,7 @@ def chart(jd, lat, lon):
     return c
 
 def random_birth(y0, y1):
+    need_swe()
     jd0, jd1 = swe.julday(y0, 1, 1), swe.julday(y1, 1, 1)
     return random.uniform(jd0, jd1)
 
@@ -229,6 +242,24 @@ VASHYA = [[2, 1, 1, 0.5, 1], [1, 2, 0.5, 0, 1], [1, 0.5, 2, 1, 1], [0.5, 0, 1, 2
 
 YONI = [0, 1, 2, 3, 3, 4, 5, 2, 5, 6, 6, 7, 8, 9, 8, 9, 10, 10, 4, 11, 12, 11, 13, 0, 13, 7, 1]
 YONI_ENEMY = {frozenset(p) for p in [(0, 8), (1, 13), (2, 11), (3, 12), (4, 10), (5, 6), (7, 9)]}
+# योनि अंक (४ समान, ३ मित्र, २ सम, १ शत्रु, ० महाशत्रु)। क्रम:
+# अश्व, गज, मेष, सर्प, श्वान, मार्जार, मूषक, गौ, महिष, व्याघ्र, मृग, वानर, नकुल, सिंह
+YONI_PTS = [
+    [4, 2, 2, 3, 2, 2, 2, 1, 0, 1, 3, 3, 2, 1],
+    [2, 4, 3, 3, 2, 2, 2, 2, 3, 1, 2, 3, 2, 0],
+    [2, 3, 4, 2, 1, 2, 1, 3, 3, 1, 2, 0, 3, 1],
+    [3, 3, 2, 4, 2, 1, 1, 1, 1, 2, 2, 2, 0, 2],
+    [2, 2, 1, 2, 4, 2, 1, 2, 2, 1, 0, 2, 1, 1],
+    [2, 2, 2, 1, 2, 4, 0, 2, 2, 1, 3, 3, 2, 1],
+    [2, 2, 1, 1, 1, 0, 4, 2, 2, 2, 2, 2, 1, 2],
+    [1, 2, 3, 1, 2, 2, 2, 4, 3, 0, 3, 2, 2, 1],
+    [0, 3, 3, 1, 2, 2, 2, 3, 4, 1, 2, 2, 2, 1],
+    [1, 1, 1, 2, 1, 1, 2, 0, 1, 4, 1, 1, 2, 1],
+    [3, 2, 2, 2, 0, 3, 2, 3, 2, 1, 4, 2, 2, 1],
+    [3, 3, 0, 2, 2, 3, 2, 2, 2, 1, 2, 4, 3, 2],
+    [2, 2, 3, 0, 1, 2, 1, 2, 2, 2, 2, 3, 4, 2],
+    [1, 0, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 2, 4],
+]
 
 LORD = ["Ma", "Ve", "Me", "Mo", "Su", "Me", "Ve", "Ma", "Ju", "Sa", "Sa", "Ju"]
 FR = {"Su": ({"Mo", "Ma", "Ju"}, {"Ve", "Sa"}), "Mo": ({"Su", "Me"}, set()),
@@ -261,7 +292,7 @@ def ashtakoot(bm, gm):
         if (((b - a) % 27) + 1) % 9 not in (3, 5, 7): t += 1.5
     k["tara"] = t
     yb, yg = YONI[bn], YONI[gn]
-    k["yoni"] = 4 if yb == yg else 0 if frozenset((yb, yg)) in YONI_ENEMY else 2
+    k["yoni"] = YONI_PTS[yb][yg]
     lb, lg = LORD[bs], LORD[gs]
     k["maitri"] = 5 if lb == lg else MAITRI[(rel(lb, lg), rel(lg, lb))]
     k["gana"] = gana_pts(GANA[bn], GANA[gn])

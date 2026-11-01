@@ -9,6 +9,8 @@ from kundli_sim import ashtakoot
 from dashakoot_enum import dashakoot, pada_info
 
 def score44(Lb, bn, bs, Lg, gn, gs):
+    # dashakoot() हर कूट को शुभ/मध्यम/अशुभ (१/०.५/०) में देता है। योनि (०-४),
+    # राशीश (०-५) और वर्ण के क्रमिक अंक उसमें नहीं हैं, इसलिए वे ashtakoot() से लिए जाते हैं।
     k = dashakoot(bn, bs, gn, gs); a = ashtakoot(Lb, Lg)
     s = (3 * k["दिन"] + 6 * k["गण"] + 2 * k["माहेंद्र"] + 2 * k["स्त्री-दीर्घ"] + a["yoni"]
          + 7 * k["राशि"] + a["maitri"] + 2 * k["वश्य"] + 8 * k["रज्जु"] + 2 * k["वेध"])
