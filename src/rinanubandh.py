@@ -43,7 +43,9 @@ def checks(b, rb, g, rg):
     tg = {"लग्नेश": lagnesh, "सप्तमेश": saptamesh, "शुक्र": lambda c: c["Venus"], "गुरु": lambda c: c["Jupiter"]}
     for n, fn in tg.items():
         f[f"३ भृगु बिंदु: दूसरे का {n} एक राशि या त्रिकोण में"] = E(lambda x, y: trine(fn(y), bb(x)), b, g)
-    f["३क भृगु बिंदु: इनमें से कोई १° के भीतर"] = E(lambda x, y: any(dist(fn(y), bb(x)) <= 1 for fn in tg.values()), b, g)
+    # नियम: "सटीक अंशों में हो या त्रिकोण संबंध बनाए"। त्रिकोण (राशि से) ऊपर नियम ३ में है;
+    # यहाँ केवल सटीक अंश वाली युति।
+    f["३क भृगु बिंदु: इनमें से कोई युति में, १° के भीतर"] = E(lambda x, y: any(dist(fn(y), bb(x)) <= 1 for fn in tg.values()), b, g)
     for p, pn in (("Venus", "शुक्र"), ("Mars", "मंगल")):
         for q, qn in (("Saturn", "शनि"), ("Ketu", "केतु")):
             f[f"४ नाड़ी: एक का {pn}, दूसरे के {qn} से त्रिकोण/सप्तम"] = E(lambda x, y: trine7(x[p], y[q]), b, g)
@@ -59,7 +61,7 @@ def checks(b, rb, g, rg):
     f["८ जैमिनी: एक का आत्मकारक, दूसरे के दारकारक से युति या राशि दृष्टि"] = E(
         lambda x, y: ak_link(x[karakas(x)[0]], y[karakas(y)[6]]), b, g)
     f["९ नवांश: एक के लग्न/चंद्र/शुक्र/सप्तमेश की राशि = दूसरे का नवांश लग्न या चंद्र"] = E(
-        lambda x, y: {S(x["Lagna"]), S(x["Moon"]), S(x["Venus"]), S(saptamesh(x))} & {nav(y["Lagna"]), nav(y["Moon"])}, b, g)
+        lambda x, y: bool({S(x["Lagna"]), S(x["Moon"]), S(x["Venus"]), S(saptamesh(x))} & {nav(y["Lagna"]), nav(y["Moon"])}), b, g)
     return f
 
 if __name__ == "__main__":
